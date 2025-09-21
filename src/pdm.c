@@ -15,12 +15,11 @@
 #define OUTPUT_FORMAT_HEX 1             
 
 // Complete data storage buffer
-#define MAX_TOTAL_SAMPLES 160000         // About 10 seconds
+#define MAX_TOTAL_SAMPLES 320000         // About 10 seconds at 32kHz
 
 // 저장용 버퍼
 uint32_t g_all_audio_data[MAX_TOTAL_SAMPLES];
 uint32_t g_total_collected_samples = 0;
-
 uint32_t g_pdm0_buffer[PDM_BUFFER_NUM_SAMPLES];
 
 // Statistics counters
@@ -124,7 +123,7 @@ void pdm0_callback(pdm_callback_args_t * p_args)
         {
             g_error_count++;
             // Continue data collection even on error
-            collect_all_audio_data(g_pdm0_buffer, PDM_CALLBACK_NUM_SAMPLES);
+//            collect_all_audio_data(g_pdm0_buffer, PDM_CALLBACK_NUM_SAMPLES);
             break;
         }
 
@@ -132,6 +131,8 @@ void pdm0_callback(pdm_callback_args_t * p_args)
             break;
     }
 }
+
+
 
 // Collect all audio data into large buffer
 void collect_all_audio_data(uint32_t *buffer, uint32_t sample_count)
@@ -142,6 +143,8 @@ void collect_all_audio_data(uint32_t *buffer, uint32_t sample_count)
         g_total_collected_samples++;
     }
 }
+
+
 
 // Output all collected data in pure format for Python processing
 void dump_all_collected_data(void)
